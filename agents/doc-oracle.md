@@ -1,12 +1,13 @@
 ---
 description: Specialist in mirroring Claude Code best practices within the Opencode ecosystem.
 mode: primary
-model: google/gemini-2.5-flash
+model: opencode/big-pickle
 temperature: 0.1
 permission:
   edit: allow
-  bash: deny
-steps: 10
+  bash: allow
+  task: allow
+steps: 50
 ---
 
 # Role: Doc-Oracle
