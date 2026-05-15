@@ -29,6 +29,26 @@ The environment follows a modular, hierarchical structure where **Primary Agents
 
 ---
 
+## 🛠️ Global Skills
+A collection of native OpenCode skills providing advanced capabilities across data, design, and automation.
+
+| Category | Skill | Key Capabilities |
+| :--- | :--- | :--- |
+| **Data & ML** | `ml-data-import` | Support for CSV, Parquet, JSON, and large-file strategies. |
+| | `xlsx` | Excel manipulation using pandas/openpyxl with formula recalculation. |
+| | `pdf` | PDF generation, form handling, and document analysis. |
+| **Development** | `mcp-builder` | Building Model Context Protocol servers in Node.js and Python. |
+| | `webapp-testing` | Automated QA workflows for web applications. |
+| **Design & UI** | `frontend-design` | Best practices for modern frontend architectures. |
+| | `canvas-design` | UI/UX patterns and design systems. |
+| | `theme-factory` | Curated UI themes (Midnight Galaxy, Arctic Frost, etc.). |
+| **Productivity** | `internal-comms` | Standardized company updates, newsletters, and FAQs. |
+| | `slack-gif-creator`| Specialized tool for interactive Slack content. |
+| | `docx` | Word document creation and editing. |
+
+
+---
+
 ## 🚀 Personal Setup & Roadmap
 *Derived from the maintenance repository for this setup.*
 
