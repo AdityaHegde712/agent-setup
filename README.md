@@ -1,14 +1,44 @@
-# Opencode Setup
+---
+description: Comprehensive overview and personal roadmap for the OpenCode Agent Ecosystem.
+disable: true
+hidden: true
+---
 
-My personal setup for opencode, describing agents, skills, and other tools.
+# Opencode Setup & Agent Roster
 
-## Added features:
-- Skills ripped off from Anthropic
-- Agent team for AI/ML projects
-- Opencode Oracle Agent to customize Opencode
-- Documentation agent
+My personal setup for OpenCode, detailing the agent hierarchy, specialized skills, and future roadmap for AI/ML and productivity tools.
 
-## Upcoming features:
+---
+
+## 🏗️ Global Agent Roster
+The environment follows a modular, hierarchical structure where **Primary Agents** coordinate a specialized roster of **Sub-agents**.
+
+### 1. Primary Agents (The Core Team)
+*   **`orchestrator`**: The Project Manager. Translates blueprints into tasks, delegates to sub-agents, and maintains the `PROJECT_STATUS.md`.
+*   **`architect`**: The Lead Designer. Focuses on Clean Architecture and Uncle Bob's principles. Produces sequential implementation plans.
+*   **`codebase-analyst`**: The Onboarding Lead. Specialized in mapping existing codebases and coordinating documentation (`CODEBASE.md`).
+*   **`doc-oracle`**: The Research & Mirroring Specialist. Deep-dives into OpenCode and Claude Code docs to mirror "Gold Standard" best practices.
+
+### 2. Specialized Sub-agents (Execution Layers)
+
+| Layer | Agent | Key Responsibilities |
+| :--- | :--- | :--- |
+| **App** | `backend-dev`, `frontend-dev`, `tester`, `ops-expert`, `technical-writer` | Full-stack application development, testing, and documentation. |
+| **ML** | `data-engineer`, `model-scientist` | Data pipelines, ETL, model training, and evaluation. |
+| **Util** | `clean-coder`, `research-analyst`, `security-reviewer`, `skill-creator`, `skill-tester`, `structure-expert`, `theory-deep-dive` | Specialized utilities for code quality, SOTA research, and skill building. |
+
+---
+
+## 🚀 Personal Setup & Roadmap
+*Derived from the maintenance repository for this setup.*
+
+### Current Features:
+- **Anthropic-Inspired Skills**: Custom skills ported from Claude's ecosystem.
+- **AI/ML Team**: Specialized agent team for end-to-end research and development.
+- **Opencode Oracle**: Specialized agent for ecosystem customization and guidance.
+- **Auto-Documentation**: Automated generation of project maps and theoretical audits.
+
+### Upcoming features:
 - Skills to:
   - Read different types of data inputs for ML (csv, parquet, zip, tar.gz, txt, json, more to be added)
   - FFMPEG executor - For video tasks at times. 
@@ -33,3 +63,11 @@ My personal setup for opencode, describing agents, skills, and other tools.
     - _Job Description sub-agent_ - Takes jd and company info, prioritizes important keywords, skills, experiences, projects necessary for role.
     - _Writer sub-agent_ - Converts updated master-skillset and experience, plus JD Sub-agent output into resume bullet points for resume content
     - _Publisher sub-agent_ - Uses pdf skill to push the writer's points into the finished resume.
+
+
+---
+
+## 📂 File System Standards
+*   **Agent Definitions**: Stored as `.md` files with YAML frontmatter.
+*   **Task Logging**: Every agent maintains logs in `.agent-tasks/<agent-name>/` (`PLAN.md`, `TASKS.md`, `STATUS.md`).
+*   **User Alignment**: Agents read `~/.config/opencode/USER_DECISION_PROFILE.md` to adapt to user heuristics.
