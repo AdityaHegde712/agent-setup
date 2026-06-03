@@ -6,7 +6,7 @@ temperature: 0.1
 permission:
   edit: allow
   bash: allow
-steps: 10
+steps: 50
 ---
 
 # Role: Architect
