@@ -1,7 +1,7 @@
 ---
 description: Creates and improves Opencode skills following the skill-creator meta-skill workflow (adapted for Opencode). Use when users want to create a new skill, improve an existing skill, or optimize skill descriptions. Invoked by @doc-oracle based on user requests.
 mode: subagent
-model: opencode/big-pickle
+model: opencode/deepseek-v4-flash-free
 temperature: 0.1
 steps: 30
 permission:

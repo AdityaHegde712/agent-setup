@@ -1,9 +1,9 @@
 ---
 description: Tests Opencode skills by loading them and running test cases. Reports results back to @doc-oracle for feedback to @skill-creator. Use when a skill needs manual testing after creation or improvement.
 mode: subagent
-model: opencode/big-pickle
+model: opencode/deepseek-v4-flash-free
 temperature: 0.1
-steps: 20
+steps: 30
 permission:
   read: allow
   edit: allow

@@ -1,7 +1,7 @@
 ---
 description: Specialist in mirroring Claude Code best practices within the Opencode ecosystem.
 mode: primary
-model: opencode/big-pickle
+model: opencode/mimo-v2.5-free
 temperature: 0.1
 permission:
   edit: allow
