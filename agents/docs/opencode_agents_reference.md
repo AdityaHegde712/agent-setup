@@ -5,7 +5,7 @@ hidden: true
 ---
 # OpenCode Agents & Teams Master Reference Guide
 
-This guide provides a comprehensive reference for configuring and orchestrating agents and agent teams in OpenCode, drawing from OpenCode's agent documentation and Claude Code's agent team orchestration patterns.
+This guide provides a comprehensive reference for configuring and orchestrating agents and agent teams in OpenCode, drawing from OpenCode's agent documentation (https://opencode.ai/docs/) and Claude Code's agent team orchestration patterns (https://code.claude.com/docs/en/agent-teams).
 
 ## 1. Agent Types
 

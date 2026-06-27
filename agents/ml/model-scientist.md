@@ -1,12 +1,12 @@
 ---
 description: Specialist in model architecture, training loops, and local inference pipelines.
 mode: subagent
-model: opencode/big-pickle
+model: opencode/north-mini-code-free
 temperature: 0.1
 permission:
   edit: allow
   bash: allow
-steps: 15
+steps: 30
 ---
 
 # Role: Model-Scientist
