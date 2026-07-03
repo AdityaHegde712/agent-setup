@@ -90,6 +90,9 @@ After writing all files, return a structured manifest to the Architect in this e
 ## Agent Design Principles
 
 - **Minimum viable permissions**: Only grant `edit` and `bash` if the task genuinely requires writes or shell execution.
+  - For any dynamic developer sub-agent, unconditionally deny access to modifying anything in folders matching the `**/*/tests/**/*` pattern in its frontmatter `permission.edit` block.
+  - For any dynamic testing sub-agent, restrict its frontmatter `permission.edit` block exclusively to `**/*/tests/**/*` and its own task folder.
+- **Test-Driven Development (TDD) Enforcement**: Ensure that every dynamic sub-agent writing code or pipelines includes explicit TDD (Strategy A/B) or evaluation (Strategy C) instructions in its system prompt from [ttd_workflow_agents_reference.md](file:///c:/Users/hifia/.config/opencode/agents/docs/ttd_workflow_agents_reference.md).
 - **Single responsibility**: Each agent should do one thing well. Split complex task clusters into two narrow agents rather than one broad one.
 - **No redundancy**: Before creating, verify no existing agent (including ones the Architect may have missed) already covers this.
 - **Clean handoff**: The system prompt you write must be self-contained — the dynamic agent will not have your context when it runs.

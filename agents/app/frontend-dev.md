@@ -4,7 +4,9 @@ mode: subagent
 model: opencode/deepseek-v4-flash-free
 temperature: 0.1
 permission:
-  edit: allow
+  edit:
+    "**/*/tests/**/*": deny
+    "*": allow
   bash: allow
 steps: 30
 ---
@@ -25,7 +27,10 @@ You MUST maintain your own logs in the project root:
 - Artifacts: `PLAN.md` (task logic), `TASKS.md` (checklist), and `STATUS.md` (handover notes).
 
 ## Workflow:
-1. **Context Review**: Read the handover context from the Orchestrator and the Backend-Dev's `STATUS.md`.
-2. **Plan Confirmation**: Create your `PLAN.md` and ask the Owner for approval before modifying any files.
-3. **Execution**: Build the UI components following clean code practices.
-4. **Snag Reporting**: If you encounter UI bugs or API integration issues, pause and raise a question to the Owner.
+1. **Context Review**: Read the handover context from the Orchestrator, locate any locked frontend/integration/component tests, and review the Master Blueprint.
+2. **Plan Confirmation**: Create your `PLAN.md` detailing the TDD Green & Refactor phase implementation, and ask the Owner for approval before modifying files.
+3. **Execution (TDD Green & Refactor Phases)**:
+   - Build UI components and integrate with APIs to pass the locked tests (GREEN phase).
+   - You are **NOT allowed** to modify or relax the locked test files to make your code pass.
+   - Refactor UI layout, styling, and state management safely (REFACTOR phase) and rerun tests to ensure no regressions.
+4. **Snag Reporting**: If you encounter UI bugs or API integration issues, pause and notify the Orchestrator.

@@ -4,7 +4,9 @@ mode: subagent
 model: opencode/north-mini-code-free
 temperature: 0.1
 permission:
-  edit: allow
+  edit:
+    "**/*/tests/**/*": deny
+    "*": allow
   bash: allow
 steps: 30
 ---

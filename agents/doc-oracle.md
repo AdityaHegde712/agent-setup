@@ -4,7 +4,9 @@ mode: primary
 model: opencode/mimo-v2.5-free
 temperature: 0.1
 permission:
-  edit: allow
+  edit:
+    ".doc-oracle-logs/LOG.md": allow
+    "*": deny
   bash: allow
   task: allow
 steps: 50

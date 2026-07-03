@@ -4,7 +4,9 @@ mode: subagent
 model: opencode/mimo-v2.5-free
 temperature: 0.1
 permission:
-  edit: allow
+  edit:
+    "**/*/tests/**/*": deny
+    "*": allow
   bash: allow
 steps: 30
 ---

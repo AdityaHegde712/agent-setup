@@ -1,8 +1,8 @@
 # User Decision Profile & Confidence Matrix
 
 ## Confidence Scores
-- **Architect Alignment**: 46
-- **Orchestrator Alignment**: 39
+- **Architect Alignment**: 48
+- **Orchestrator Alignment**: 41
 
 ## Execution Policy
 - **Low Confidence (< 50%)**: "Conservative Mode" — Every major decision and tool invocation requires explicit user approval.
@@ -21,11 +21,17 @@
 - **Foundation Finality**: Once a foundational module (e.g., storage adapter, data manager, core architecture) is approved and passes development, do not propose rebuilding or replacing it in response to downstream compatibility issues unless those issues are exhaustively verified as unsolvable within the existing architecture. Use adaptation layers, bridges, or shims first.
 - **Domain Document Primacy**: Treat user-provided domain-specific reference documents (variables guides, domain papers, technical specs) as authoritative over generic best practices.
 - **Separation of Modeling Scales**: When modeling physical systems where behavior scales nonlinearly with a parameter (e.g., size), stratified models or modules per scale range perform better than a single universal one.
+- **Reference Grounding (Generalized)**: Every component, design choice, or methodological claim must cite a published source, established library, or known pattern. Never propose凭空 invented approaches. For research: papers → detection methods, architectures, training procedures. For software: established patterns → architecture, state management, data flow.
+- **Interaction Dynamics Primacy**: When presenting multi-component systems, lead with the interaction model — how parts communicate, debate, converge, share information — before listing component roles. The user analyzes systems through their feedback loops and communication patterns, not through component inventories.
+- **Explicit Scope Boundaries**: Every plan must articulate clear "in scope vs. explicitly out of scope" boundaries with rationale for both. Ambiguous or unstated scope edges erode credibility more than aggressively narrow ones.
+- **Standalone Research Artifacts**: Research prototypes must be self-contained and independently reproducible. Avoid coupling to personal infrastructure, proprietary APIs, or author-specific toolchains unless explicitly justified and documented.
 
 ### 2. Operations & Execution
 - **Surgical Modifications**: Favor surgical, minimal diffs over wide-scale refactoring of surrounding code unless explicitly requested by the user.
 - **Tool Selection**: Favor existing project utilities discovered during the "Explore" phase over writing new ad-hoc scripts.
 - **Safe Autonomy**: Strictly follow the Execution Policy. Never assume autonomy for destructive operations.
+- **Proactive Trade-off Surfacing**: When proposing a design or approach, proactively surface comparisons, alternatives considered, and the specific reasoning for the chosen path before being asked. Anticipate which decisions the user would challenge and address the trade-offs explicitly.
+- **Information Flow Auditing**: Every experimental or evaluation design must include an explicit audit of what signals each component sees, what information could leak between components, and how blind/controlled conditions are enforced. Data leakage is a critical evaluation failure the user detects immediately.
 
 ### 3. Local WebViews & File Manager Contexts
 - **Single-File Fallback**: When building web apps that might be opened directly from local mobile file managers (using `content://` URIs), use a single, self-contained HTML file because relative resource paths will break.
@@ -42,6 +48,7 @@
 - **Third-Party Libraries**: For minor features, prefer using a popular third-party micro-package (e.g., lodash, date-fns) as the first choice. Write a custom implementation only if the package does not fit the target task.
 - **In-Code Documentation**: Concise, type-hinted, and modular. Use Google-style docstrings/JSDoc.
 - **Plans/Design**: High granularity and technical detail.
+- **Precision Over Hand-waving**: Favor mathematical equations, mechanistic data-flow descriptions, and explicit failure-mode analysis over qualitative or imprecise descriptions. For research: formal notation. For applications: clear transform pipelines, state machines, and edge-case catalogs.
 
 ---
 
@@ -63,6 +70,9 @@
 - **2026-06-26**: ResumePipeline Phase 6 (security audit + README) completed.
 - **2026-06-26**: Architect violated workflow — executed fix (5 frontend hooks destructure) instead of planning-only and handing off to Orchestrator. Alignment -6.
 - **2026-06-26**: Phase 7 plan (generation crash, model hardcoding, auto-matching) approved without changes. Alignment +2.
+- **2026-06-30**: Agentic Cyber-Defense blueprint session. Cross-referenced against pre-existing Claude plan; architecture redesigned from sequential pipeline to parallel sub-team with debate. Learned: reference grounding is #1 general heuristic; precision over hand-waving; interaction dynamics primacy; explicit scope boundaries; information flow auditing; proactive trade-off surfacing. Alignment unchanged (plan not yet finalized — awaiting confirmation after user returns).
+- **2026-06-30**: hai provider integration plan (OpenRouter + Zen) approved without changes. Architecture: shared OpenAICompatibleProvider abstraction. TDD-first with connectivity validation script. 21 tasks, 6 phases. Alignment +2.
+- **2026-06-30**: hai provider integration executed by Orchestrator. 31/34 tests pass, 0 regressions. Key finding: `--model` CLI flag was broken (pre-existing bug, fixed). CODEBASE.md and contributions.md updated post-build. All 6 phases completed sequentially. Alignment +2. Architecture: shared OpenAICompatibleProvider abstraction. TDD-first with connectivity validation script. 21 tasks, 6 phases. Alignment +2. Cross-referenced against pre-existing Claude plan; architecture redesigned from sequential pipeline to parallel sub-team with debate. Learned: reference grounding is #1 general heuristic; precision over hand-waving; interaction dynamics primacy; explicit scope boundaries; information flow auditing; proactive trade-off surfacing. Alignment unchanged (plan not yet finalized — awaiting confirmation after user returns).
 
 ## Workspace Preferences
 - **Theme**: Dark themes preferred by default for most tools (e.g., `#121212` backgrounds, `#e0e0e0` text).
