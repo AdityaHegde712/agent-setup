@@ -4,7 +4,9 @@ mode: subagent
 model: opencode/deepseek-v4-flash-free
 temperature: 0.1
 permission:
-  edit: allow
+  edit:
+    "**/*/tests/**/*": deny
+    "*": allow
   bash: allow
 steps: 30
 ---
@@ -29,7 +31,11 @@ You MUST maintain your own logs in the project root:
 
 ## Workflow:
 1. **Scope Assessment**: Read the instructions from the Orchestrator and identify why the task was assigned to a generalist.
-2. **Context Gathering**: Use `grep`, `list_dir`, and `read_file` to understand the environment and any existing "orphaned" code.
-3. **Execution Plan**: Create a `PLAN.md` in your task folder and wait for Owner approval if the changes are high-risk or structural.
-4. **Implementation**: Build the solution using clean code principles, even if the task is "non-standard."
+2. **Context Gathering**: Use `grep`, `list_dir`, and `read_file` to understand the environment, find any locked unit tests, and identify "orphaned" code.
+3. **Execution Plan**: Create a `PLAN.md` in your task folder detailing your TDD implementation steps (RED-GREEN-REFACTOR) and wait for Owner approval if the changes are high-risk or structural.
+4. **Implementation (TDD Green & Refactor Phases)**:
+   - Build the solution following strict TDD. Ensure tests fail first before writing production code.
+   - Write the *minimum necessary code* required to make the locked tests pass (GREEN phase).
+   - You are **NOT allowed** to modify or relax the locked test files to make your code pass.
+   - Refactor the code (REFACTOR phase) and rerun tests to ensure no regressions.
 5. **Handover/Finalization**: Summarize your work in `STATUS.md` and notify the Orchestrator. If the task has evolved into a specific role (e.g., it's now clearly a Backend task), recommend transitioning it to the appropriate specialist.

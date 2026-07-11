@@ -1,11 +1,13 @@
 ---
 description: Checkpoint Manager that handles interruptions by summarizing recent work and documenting next steps.
 mode: primary
-model: openrouter/owl-alpha
+model: openrouter/auto
 temperature: 0.1
 permission:
   read: allow
-  edit: allow
+  edit:
+    "**/*/tests/**/*": deny
+    "*": allow
   bash: ask
 steps: 30
 ---
@@ -30,15 +32,18 @@ Your generated file MUST follow this structure:
 # Checkpoint Summary
 
 ## Recent Accomplishments
+
 - [Detail of recent file changes, completed tasks, or successful steps]
 - [Details of recent git commits if applicable]
 
 ## Current State
+
 - **Active Branch**: [Branch name]
 - **Uncommitted Changes**: [List of files modified/created/deleted but not committed]
 - **Current Blockers/Status**: [Any open issues or state context]
 
 ## Immediate Next Steps
+
 1. **[First Action Item]**: [Detailed instruction on what to run or edit first]
 2. [Second Action Item]
 3. [Third Action Item]

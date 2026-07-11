@@ -80,17 +80,17 @@ below for classification guidance.
 
 **Taxonomy quick-pick:**
 
-| Symptom | Likely Category |
-|---|---|
-| Exception with stack trace | Runtime Error |
-| Wrong value, silent failure | Logic / State |
-| Works locally, fails in CI/prod | Environment / Config |
-| Slow, memory grows, hangs | Performance / Resource |
-| UI wrong but data correct | Rendering / CSS |
-| Auth fails, tokens invalid | Auth / Session |
-| API returns wrong or no data | Network / API |
-| Build fails, tests fail | Build / Test |
-| DB query errors, wrong records | Database |
+| Symptom                         | Likely Category        |
+| ------------------------------- | ---------------------- |
+| Exception with stack trace      | Runtime Error          |
+| Wrong value, silent failure     | Logic / State          |
+| Works locally, fails in CI/prod | Environment / Config   |
+| Slow, memory grows, hangs       | Performance / Resource |
+| UI wrong but data correct       | Rendering / CSS        |
+| Auth fails, tokens invalid      | Auth / Session         |
+| API returns wrong or no data    | Network / API          |
+| Build fails, tests fail         | Build / Test           |
+| DB query errors, wrong records  | Database               |
 
 ### Phase 3 — Isolate the Blast Radius
 
@@ -110,6 +110,7 @@ the bug is isolated or systemic.
 Form at most 3 specific, falsifiable hypotheses before writing any code.
 
 A good hypothesis follows this format:
+
 > "The bug occurs because [specific mechanism] when [specific condition],
 > which causes [observed effect]. I expect to confirm this by [test]."
 
@@ -123,6 +124,7 @@ on intuition alone. Use the **Diagnostic Toolkit** section for specific
 commands and techniques per bug category.
 
 Investigation checklist:
+
 - [ ] Read the full stack trace, not just the top frame
 - [ ] Add targeted logging at the boundary where behavior diverges from expectation
 - [ ] Verify inputs at the point of failure (do not assume upstream correctness)
@@ -152,6 +154,11 @@ Write the minimal fix that resolves the root cause. Follow these rules:
 - **Do not add workarounds** that mask the root cause (catching and silencing
   exceptions, hardcoding fallback values, etc.) unless explicitly time-boxed and
   documented.
+- **Scope the defense to the blast radius.** If Phase 3 found the broken
+  assumption at a single call site, guard there. If it found multiple
+  call sites sharing the assumption, do not patch each site — either fix
+  the shared root (the function/type/contract they all depend on) or flag
+  it explicitly for Phase 9 rather than leaving duplicate guards behind.
 
 ### Phase 8 — Verify
 
@@ -172,7 +179,7 @@ After confirming the fix:
 
 - **Write a regression test** that would have caught this bug. This is mandatory
   unless the test infrastructure literally cannot support it.
-- **Add a comment** on the fix explaining *why* it is necessary, not just what
+- **Add a comment** on the fix explaining _why_ it is necessary, not just what
   it does.
 - If the root cause reveals a systemic issue (missing validation, absent error
   handling pattern, incorrect assumption across many modules), **file a follow-up
@@ -190,6 +197,7 @@ Detailed investigation guidance per category.
 unexpected `null` / `undefined` reference.
 
 **Investigation order:**
+
 1. Read the full stack trace. Identify the first frame in **your** code, not a
    library. Library frames show where it blew up; your code shows why.
 2. Check the inputs to the failing function at that frame. Add a log or
@@ -200,6 +208,7 @@ unexpected `null` / `undefined` reference.
    Grep for `catch` blocks around the call site.
 
 **Common sources:**
+
 - Unguarded nullable access (`obj.field` where `obj` is `null`)
 - Async code missing `await` (function returns a Promise, not a value)
 - Off-by-one on array access
@@ -215,6 +224,7 @@ unexpected `null` / `undefined` reference.
 UI shows stale or incorrect state.
 
 **Investigation order:**
+
 1. Find the exact point where the value diverges from expected. Use binary
    search with logs — narrow it to a specific function, then a specific line.
 2. Log the **input** and **output** of each transformation in the chain until
@@ -226,6 +236,7 @@ UI shows stale or incorrect state.
 5. Verify **ordering** — are async operations completing in the order you assume?
 
 **Common sources:**
+
 - Mutating instead of cloning objects/arrays
 - Stale closure over a mutable variable
 - Race condition between concurrent async operations
@@ -244,6 +255,7 @@ UI shows stale or incorrect state.
 between developer machines. Fails after a deployment with no code change.
 
 **Investigation order:**
+
 1. Identify **exactly** which environments are affected vs. unaffected.
 2. Diff the **environment variables** between working and failing environments.
 3. Diff the **dependency versions** (`package-lock.json`, `poetry.lock`, etc.).
@@ -255,6 +267,7 @@ between developer machines. Fails after a deployment with no code change.
    at build time are frozen; vars loaded at runtime are not.
 
 **Checklist:**
+
 - [ ] Compare `.env` / env var dumps between environments
 - [ ] Check for missing required env vars (app should fail loudly on startup if required vars are absent)
 - [ ] Verify third-party service credentials are valid in the target environment
@@ -269,6 +282,7 @@ between developer machines. Fails after a deployment with no code change.
 leak over time, CPU spike, request timeout.
 
 **Investigation order:**
+
 1. **Measure first.** Identify the actual bottleneck before guessing. Use profiling
    tools appropriate to the stack.
 2. For API slowness: check DB query count and duration. N+1 queries are the most
@@ -281,16 +295,17 @@ leak over time, CPU spike, request timeout.
 
 **Profiling tools by stack:**
 
-| Stack | Tool |
-|---|---|
-| Node.js | `--inspect` + Chrome DevTools, `clinic.js`, `0x` |
-| Browser JS | Chrome DevTools Performance tab |
-| React | React DevTools Profiler |
-| Python backend | `cProfile`, `py-spy`, `memory_profiler` |
-| PostgreSQL | `EXPLAIN ANALYZE`, `pg_stat_statements` |
-| MySQL | `EXPLAIN`, slow query log |
+| Stack          | Tool                                             |
+| -------------- | ------------------------------------------------ |
+| Node.js        | `--inspect` + Chrome DevTools, `clinic.js`, `0x` |
+| Browser JS     | Chrome DevTools Performance tab                  |
+| React          | React DevTools Profiler                          |
+| Python backend | `cProfile`, `py-spy`, `memory_profiler`          |
+| PostgreSQL     | `EXPLAIN ANALYZE`, `pg_stat_statements`          |
+| MySQL          | `EXPLAIN`, slow query log                        |
 
 **Common sources:**
+
 - N+1 database queries (loop issuing one query per row)
 - Missing database index on a filtered or sorted column
 - Returning too much data (no pagination, no field projection)
@@ -307,6 +322,7 @@ leak over time, CPU spike, request timeout.
 component renders at wrong time, visual glitch.
 
 **Investigation order:**
+
 1. Open browser DevTools. Inspect the actual DOM — is the element present,
    and is it what you expect?
 2. Check the **computed styles** on the element. Is the style you expect present?
@@ -319,6 +335,7 @@ component renders at wrong time, visual glitch.
    and whether the correct values are passed down through props/context.
 
 **Common sources:**
+
 - CSS specificity conflict (a more specific rule overrides your intent)
 - Wrong `z-index` stacking context
 - Flexbox / Grid axis confusion (`flex-direction`, `align-items` vs. `justify-content`)
@@ -335,6 +352,7 @@ component renders at wrong time, visual glitch.
 applied, token expiry issues, CSRF failures.
 
 **Investigation order:**
+
 1. Inspect the actual request in the browser Network tab. What auth header or
    cookie is being sent? Is the token present?
 2. Decode the JWT (use jwt.io offline) — check `exp`, `iat`, `sub`, `aud`, and
@@ -348,6 +366,7 @@ applied, token expiry issues, CSRF failures.
 6. Check session store (Redis, DB) — is the session present? Is it expired?
 
 **Common sources:**
+
 - Token sent in wrong format (missing `Bearer ` prefix)
 - Token not refreshed before expiry
 - Cookie not sent on cross-origin requests (missing `SameSite=None; Secure`)
@@ -363,6 +382,7 @@ applied, token expiry issues, CSRF failures.
 network timeouts, CORS errors, unexpected response shape, missing data.
 
 **Investigation order:**
+
 1. Open the browser Network tab. Find the failing request. Read:
    - Request URL (is it correct?)
    - Request method (GET/POST/etc. — correct?)
@@ -379,6 +399,7 @@ network timeouts, CORS errors, unexpected response shape, missing data.
    actual request response headers — not in the client code.
 
 **Common sources:**
+
 - Base URL misconfigured (wrong env, trailing slash mismatch)
 - JSON body not serialized (`fetch` requires `JSON.stringify` + `Content-Type: application/json`)
 - CORS: missing `Access-Control-Allow-Origin`, `Access-Control-Allow-Methods`, or `Access-Control-Allow-Headers`
@@ -394,6 +415,7 @@ network timeouts, CORS errors, unexpected response shape, missing data.
 CI pipeline failure, import resolution error.
 
 **Investigation order:**
+
 1. Read the full error output. Compiler and bundler errors are usually precise.
    Do not paraphrase — read the exact message.
 2. For TypeScript errors: identify the inferred type vs. the expected type.
@@ -406,6 +428,7 @@ CI pipeline failure, import resolution error.
    OS, installed system packages). Check if the CI cache is stale.
 
 **Common sources:**
+
 - Type mismatch introduced by a dependency update
 - Circular import (module A imports B, B imports A)
 - Test relies on global state mutated by a previous test (test order dependency)
@@ -422,6 +445,7 @@ CI pipeline failure, import resolution error.
 migration failure, deadlock, slow query.
 
 **Investigation order:**
+
 1. Run the failing query directly against the database. Read the exact error.
 2. Check the **migration state** — are all migrations applied? Is the schema
    what the application expects?
@@ -435,6 +459,7 @@ migration failure, deadlock, slow query.
    which transactions are competing for the same rows and in what order.
 
 **Common sources:**
+
 - Soft-deleted records not excluded from queries
 - N+1 query pattern (missing `JOIN` or eager load)
 - Missing index on a filtered column
@@ -457,6 +482,7 @@ Add temporary debug logs at **boundaries** — inputs and outputs of functions,
 not inside tight loops.
 
 Remove temporary debug logs before committing. Use a task comment:
+
 ```
 // TODO: remove debug log
 console.log('[DEBUG] user payload:', payload);
@@ -605,12 +631,22 @@ If logs show external service error: check connectivity and credentials.
 Do not do any of the following:
 
 **Do not add `try/catch` that swallows errors silently.**
+
 ```js
 // WRONG — hides failures, makes debugging impossible later
-try { doThing(); } catch (e) { /* ignore */ }
+try {
+  doThing();
+} catch (e) {
+  /* ignore */
+}
 
 // CORRECT — log and re-throw, or handle with intent
-try { doThing(); } catch (e) { logger.error('doThing failed', e); throw e; }
+try {
+  doThing();
+} catch (e) {
+  logger.error("doThing failed", e);
+  throw e;
+}
 ```
 
 **Do not use `as any` in TypeScript to silence a type error.**

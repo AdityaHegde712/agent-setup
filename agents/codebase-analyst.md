@@ -4,7 +4,9 @@ mode: primary
 model: opencode/deepseek-v4-flash-free
 temperature: 0.1
 permission:
-  edit: allow
+  edit:
+    "**/*/tests/**/*": deny
+    "*": allow
   bash: allow
 steps: 100
 ---

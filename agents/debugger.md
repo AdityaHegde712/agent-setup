@@ -5,7 +5,9 @@ model: opencode/big-pickle
 temperature: 0.1
 permission:
   read: allow
-  edit: allow
+  edit:
+    "**/*/tests/**/*": deny
+    "*": allow
   bash: allow
   task: allow
   question: allow

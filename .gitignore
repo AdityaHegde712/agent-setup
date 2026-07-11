@@ -4,4 +4,7 @@ package-lock.json
 bun.lock
 TEAM_INFO.md
 __pycache__
+.venv
+ua/.venv/
 commands/anxious.md
+agents/references/literature_credentials.md

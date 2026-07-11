@@ -6,7 +6,9 @@ temperature: 0.1
 steps: 30
 permission:
   read: allow
-  edit: allow
+  edit:
+    "**/*/tests/**/*": deny
+    "*": allow
   bash: allow
   task: deny
   webfetch: allow

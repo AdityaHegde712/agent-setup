@@ -4,7 +4,9 @@ mode: subagent
 model: opencode/deepseek-v4-flash-free
 temperature: 0.1
 permission:
-  edit: allow
+  edit:
+    "**/*/tests/**/*": deny
+    "*": allow
   bash: allow
 steps: 30
 ---
@@ -25,7 +27,12 @@ You MUST maintain your own logs in the project root:
 - Artifacts: `PLAN.md` (task logic), `TASKS.md` (checklist), and `STATUS.md` (handover notes).
 
 ## Workflow:
-1. **Context Review**: Read the handover context from the Orchestrator and the Master Blueprint.
-2. **Plan Confirmation**: Create your `PLAN.md` and ask the Owner for approval before modifying any files.
-3. **Execution**: Build the backend services following Clean Code and PEP8 standards.
-4. **Snag Reporting**: If you encounter dependency conflicts or API design hurdles, pause and raise a question to the Owner.
+1. **Context Review**: Read the handover context from the Orchestrator, locate the locked unit tests, and review the Master Blueprint.
+2. **Plan Confirmation**: Create your `PLAN.md` detailing the TDD Green & Refactor phase implementation, and ask the Owner for approval before modifying files.
+3. **Execution (TDD Green & Refactor Phases)**:
+   - Do NOT write production code without verifying that the corresponding test fails first (RED phase).
+   - Write the *minimum necessary production code* required to make the locked tests pass (GREEN phase). Avoid scope creep.
+   - You are **NOT allowed** to modify or relax the locked test files to make your code pass.
+   - Once tests pass, optimize, clean, and deduplicate the code (REFACTOR phase) and rerun tests to ensure no regressions.
+   - Apply Strategy B guidelines for preprocessing, transformation, and API/serving layers (e.g. valid schemas, explicit HTTP error codes).
+4. **Snag Reporting**: If you encounter issues or believe a locked test is incorrect/flaky, pause and notify the Orchestrator.

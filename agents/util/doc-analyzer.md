@@ -5,7 +5,9 @@ model: opencode/mimo-v2.5-free
 temperature: 0.1
 permission:
   read: allow
-  edit: allow
+  edit:
+    "**/*/tests/**/*": deny
+    "*": allow
   bash: allow
 steps: 30
 ---
