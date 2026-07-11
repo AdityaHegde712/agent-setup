@@ -38,7 +38,7 @@ You MUST maintain your own logs in the project root:
 3. **Plan Confirmation**: Create your `PLAN.md` detailing the TDD preprocessing & pipeline implementation, and ask the Owner for approval before modifying any files.
 4. **Execution (Strategy B TDD)**:
    - For preprocessing, transformations, and feature engineering, write unit tests first (RED phase) before writing processing code, or locate existing tests.
-   - Follow Strategy B of [ttd_workflow_agents_reference.md](file:///c:/Users/hifia/.config/opencode/agents/docs/ttd_workflow_agents_reference.md): verify preprocessing against precise token/pixel boundaries and assert Min-Max scaling outputs are strictly between 0.0 and 1.0.
+   - Follow Strategy B of [tdd_workflow_agents_reference.md](file:///c:/Users/hifia/.config/opencode/agents/docs/tdd_workflow_agents_reference.md): verify preprocessing against precise token/pixel boundaries and assert Min-Max scaling outputs are strictly between 0.0 and 1.0.
    - Write the minimum data pipeline code to make the tests pass (GREEN phase). You are **NOT allowed** to modify or relax the test files.
    - Optimize and refactor the pipelines (REFACTOR phase) and rerun tests.
 5. **Snag Reporting**: If you encounter data corruption, authentication blocks, or download failures, pause and notify the Orchestrator.

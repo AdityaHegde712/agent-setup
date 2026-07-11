@@ -2,7 +2,7 @@
 
 > Personal configuration hub for the Opencode AI agent ecosystem — defines agents, skills, commands, and runtime plugins consumed by the Opencode runtime to orchestrate specialized AI development teams.
 
-**Last updated:** 2026-06-30
+**Last updated:** 2026-07-11
 **Primary language:** Markdown (agent/command definitions) + Python (scripts) + JavaScript (plugins)
 **Architecture style:** Configuration Repository / Agent Ecosystem
 
@@ -35,6 +35,7 @@ graph LR
 | Skills | Markdown (`SKILL.md`) + optional scripts | Loaded by skill name; each skill is a directory under `skills/` |
 | Scripts | Python 3 | Utility scripts (`html_to_md.py`, `tex_to_md.py`, `initialize.py`) |
 | Plugins | JavaScript (Node.js) | Runtime hooks injected via `@opencode-ai/plugin` |
+| User-agent backend | Python 3 | State CRUD layer and custom agent configurations backend |
 | Runtime dependency | `@opencode-ai/plugin@1.14.29` | Single npm dependency — the Opencode plugin SDK |
 | Themes | JSON | Color scheme definitions consumed by the Opencode UI |
 
@@ -48,11 +49,12 @@ graph LR
 | `agents/app/` | App-layer sub-agents: backend-dev, frontend-dev, tester, ops-expert, technical-writer |
 | `agents/ml/` | ML-layer sub-agents: data-engineer, model-scientist |
 | `agents/util/` | Utility sub-agents (11 total): clean-coder, research-analyst, security-reviewer, skill-creator, skill-tester, structure-expert, theory-deep-dive, codebase-doc, doc-analyzer, sub-agent-creator, general-builder |
-| `skills/` | 23 custom skills organized by domain (data/ML, development, design, productivity, literature) |
+| `skills/` | 26 custom skills organized by domain (data/ML, development, design, productivity, literature) |
 | `commands/` | 10 slash commands mapped to predefined agent behaviors |
 | `scripts/` | Python utilities for format conversion and workspace initialization |
-| `plugins/` | Runtime plugins (currently: `bedtime-reminder.js` for schedule alerts) |
+| `plugins/` | Runtime plugins (`bedtime-reminder.js` for schedule alerts, `compaction-backup.js` for rolling episodic memory) |
 | `themes/` | JSON color themes (charcoal, mytheme, smoke-theme) |
+| `ua/` | Python-based backend that manages personal agent customizations, storing state via local CRUD layers and exposing them through MCP |
 | `USER_DECISION_PROFILE.md` | Confidence scoring, execution policy, and developer heuristics — read by all agents |
 
 ---
@@ -79,6 +81,12 @@ The confidence score system controls agent autonomy levels: <50% = conservative 
 
 **Task logging convention**
 Every agent maintains logs in `.agent-tasks/<agent-name>/` with three files: `PLAN.md` (task logic), `TASKS.md` (checklist), and `STATUS.md` (handover notes). This is enforced by each agent's instructions, not by tooling.
+
+**Test-Driven Development (TDD) lockdown**
+Developer sub-agents (e.g. `@backend-dev`, `@frontend-dev`, `@general-builder`, `@data-engineer`) are strictly restricted from editing test files (`tests/**/*: deny` or equivalent in permissions), preventing them from modifying or relaxing unit tests to force their code to pass. Only the `@tester` sub-agent has exclusive test suite write access.
+
+**Compaction backup plugin hooks**
+The `compaction-backup.js` plugin dynamically intercepts compaction states to maintain rolling episodic memories. It replaces the compaction prompt to emit structured episode summaries, saves new summaries locally to `.compactions/<sessionID>/episode_<N>.md` upon the `session.compacted` event, and transforms incoming LLM contexts by injecting the most recent 3 episodes into the main assistant summary block.
 
 ---
 

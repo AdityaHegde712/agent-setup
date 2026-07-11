@@ -41,6 +41,8 @@ A collection of native OpenCode skills providing advanced capabilities across da
 |                  | `webapp-testing`              | Playwright-based testing and UI verification of local web apps.                            |
 |                  | `code-debugger`               | Diagnostic processes and debugging workflows for web/desktop apps.                         |
 |                  | `github-workflows`            | Personal conventions for Git operations and GitHub workflows.                              |
+|                  | `jupytext-notebooks`          | Read and write Jupyter Notebooks (`.ipynb`) natively in sync with Markdown/Python.          |
+|                  | `terraform-test-writer`        | Generate Terraform unit and integration test suites using Go/Terratest.                    |
 | **Design & UI**  | `frontend-design`             | Responsive, high-quality, production-ready frontend interfaces.                            |
 |                  | `canvas-design`               | Original visual art and layout designs in PNG and PDF.                                     |
 |                  | `theme-factory`               | Custom styling for reports, HTML, and documents using themes.                              |
@@ -50,6 +52,7 @@ A collection of native OpenCode skills providing advanced capabilities across da
 |                  | `task-paralysis-break`        | Decision fatigue mitigation and task prioritization.                                       |
 |                  | `anxiety-rationalizer`        | Processing attachment anxiety with objective reality checks.                               |
 |                  | `codebase-doc`                | Generation of comprehensive global codebase documentation.                                 |
+|                  | `caveman`                     | Ultra-compressed, terse communication style for low-token developer coordination.          |
 | **Literature**   | `literature-search-arxiv`     | arXiv publication search and document retrieval.                                           |
 |                  | `literature-search-biorxiv`   | BioRxiv/medRxiv preprint browsing and download.                                            |
 |                  | `literature-search-europepmc` | Open-access PMC article search and full-text retrieval.                                    |
@@ -80,9 +83,10 @@ Bespoke shortcuts mapped directly into the system to trigger predefined behavior
 
 Beyond agents and skills, this configuration contains several supporting directories:
 
-- **`plugins/`**: Custom runtime modules (e.g., `bedtime-reminder.js` for schedule alerts).
+- **`plugins/`**: Custom runtime modules (e.g., `bedtime-reminder.js` for schedule alerts, and `compaction-backup.js` for rolling episodic memory backup).
 - **`scripts/`**: Practical utility scripts (e.g., `html_to_md.py` for content parsing, `tex_to_md.py` for LaTeX-to-Markdown conversion, and workspace initializers).
 - **`themes/`**: JSON colorschemes to design premium documents and user interfaces (e.g., `charcoal.json`, `smoke-theme.json`).
+- **`ua/`**: Python-based customizations backend managing state and exposing capabilities through MCP.
 
 ---
 
@@ -93,7 +97,6 @@ Beyond agents and skills, this configuration contains several supporting directo
 - **Skills to Implement**:
   - **FFmpeg Executor**: Video and audio processing command utilities.
   - **Canvas Scraper**: Academic content retrieval and scraping from Canvas LMS.
-  - **Jupyter Notebooks (`ipynb`)** _(High Priority)_: Specialized skill to read and write `.ipynb` file structures natively.
   - **Database Integration (`sqlite-postgres`)**: CRUD operations, schema creation, and database connection handlers.
 - **Specialized Agents**:
   - **Homework Agent**:
@@ -108,3 +111,4 @@ Beyond agents and skills, this configuration contains several supporting directo
 - **Agent Definitions**: Stored as `.md` files with YAML frontmatter.
 - **Task Logging**: Every agent maintains logs in `.agent-tasks/<agent-name>/` (`PLAN.md`, `TASKS.md`, `STATUS.md`).
 - **User Alignment**: Agents read `~/.config/opencode/USER_DECISION_PROFILE.md` to adapt to user heuristics.
+- **TDD & Test Lockdown**: Agent-facing Test-Driven Development (TDD) execution loops are documented in [tdd_workflow_agents_reference.md](file:///c:/Users/hifia/Projects/opencode-setup/agents/docs/tdd_workflow_agents_reference.md). Developer agents are restricted from editing test files (`tests/**/*: deny`), leaving `@tester` with exclusive test suite write access.

@@ -1,0 +1,23 @@
+{
+  "skill_name": "terraform-test-writer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I have a PLAN.md for my capstone's inference pipeline that says: 'S3 bucket receives uploaded frames, triggers SQS on upload, Lambda drains the queue (batch size 5) and runs YOLOv8 inference, results get written to DynamoDB with the frame_id as partition key. DLQ after 3 failed processing attempts. Lambda timeout is 60s, queue visibility timeout should be set accordingly.' Can you write terraform tests that verify my infra actually does this once I build it?",
+      "expected_output": "One or more .tftest.hcl files with assertions covering: S3->SQS notification wiring, SQS DLQ config (maxReceiveCount=3), visibility_timeout >= lambda timeout (60s+), Lambda batch size, DynamoDB hash_key = frame_id, IAM permissions for Lambda to read SQS/write DynamoDB. Plus a coverage table mapping each PLAN.md requirement to an assertion.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "here's my existing main.tf for an s3 bucket + lambda setup (no tests yet). can you write some tests for it? I want to make sure the bucket is actually private and encrypted, and that the lambda has the right permissions to read from it. also not totally sure if terraform test is even the right tool for this vs something else, whatever you think is best",
+      "expected_output": "Should ask to see the actual .tf file content (or note it needs to read it) since none was provided, or reasonably proceed with a generic S3+Lambda example while flagging the assumption. Should default to native terraform test and briefly justify why over Terratest. Should include S3 public-access-block/encryption assertions and IAM read permission assertion.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "quick one -- I need a test that checks my dynamodb table has point in time recovery on and uses on-demand billing, that's it for now",
+      "expected_output": "A minimal, focused .tftest.hcl with just those two assertions -- should NOT over-expand into a huge multi-service test suite when the ask is narrow and specific. Tests scoping judgment: does the skill recognize a small ask and stay small.",
+      "files": []
+    }
+  ]
+}

@@ -7,3 +7,4 @@ __pycache__
 .venv
 ua/.venv/
 commands/anxious.md
+agents/references/literature_credentials.md

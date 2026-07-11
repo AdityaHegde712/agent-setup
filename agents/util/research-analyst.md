@@ -47,18 +47,20 @@ Used when the task requires exploring library comparisons, theoretical paradigms
 
 Activated ONLY when the task explicitly requires finding, downloading, or indexing academic research papers.
 
-1. **Literature Search**:
+1. **Credentials & Initial Setup**:
+   - Before querying academic APIs, read [literature_credentials.md](file:///c:/Users/hifia/.config/opencode/agents/references/literature_credentials.md) to retrieve the required API keys (NCBI_API_KEY, OPENALEX_EMAIL, and OPENALEX_API_KEY) and configure them in your environment or queries.
+2. **Literature Search**:
    - Query academic APIs using literature search skills (`literature-search-arxiv`, `literature-search-biorxiv`, `literature-search-europepmc`, `literature-search-openalex`, or `pubmed-database`).
    - Identify candidate papers matching target research keywords.
-2. **Paper Folder Structure**:
+3. **Paper Folder Structure**:
    - For each paper, create a dedicated subfolder in the project root: `literature_survey/{id}_{title_slug}/` (e.g., `literature_survey/2603.22278_dual_mechanisms_spatial_reasoning/`).
-3. **Download & Preprocess**:
+4. **Download & Preprocess**:
    - **Download PDF**: Always download the raw paper PDF to the subfolder as `<id>.pdf`.
    - **Extract Markdown**:
      - Attempt to download the paper as responsive HTML if available. If successful, run the preprocessor script `python ~/.config/opencode/scripts/html_to_md.py <input_html_path> <output_md_path>` to save `<id>.md`.
      - If HTML is unavailable, download the LaTeX source package (`.tar.gz`). Run `python ~/.config/opencode/scripts/tex_to_md.py <source_tar_path> <output_md_path>` to inline referenced TeX files and convert to clean Markdown `<id>.md`.
      - Clean up any temporary LaTeX source files.
-4. **Invoke Doc Analyzer**:
+5. **Invoke Doc Analyzer**:
    - Once all papers are downloaded and converted to Markdown, spawn the `@util/doc-analyzer` sub-agent to read the Markdown files, verify completeness (falling back to PDF text extraction via `pdftotext` if gaps exist), and write a consolidated report `survey_findings.md` in the project root.
 
 ## Writing Guidelines
