@@ -1,6 +1,7 @@
 # Next Session — Handoff Notes
 
 ## Branch
+
 `feature/add-tdd-workflow-and-test-permissions`
 
 ## Accomplishments This Session
@@ -12,6 +13,7 @@
 5. **GitHousekeeping** — Fixed remote URL to `agent-setup.git`, added `.venv` to `.gitignore`.
 
 ## Commits Made
+
 ```
 5afcbea chore: add .venv to gitignore
 a45afed feat(ua): add user-agent customization backend for opencode
@@ -19,6 +21,7 @@ a45afed feat(ua): add user-agent customization backend for opencode
 ```
 
 ## Next Steps / Context to Resume
+
 - The `ua/` project source files are committed but `.venv/` was excluded (now in `.gitignore`).
 - `package.json` and `package-lock.json` have CRLF-only diffs — not committed, verify if real changes exist.
 - The branch is feature work on `main`-only repo. Consider opening a PR to `main` or merging when ready.
