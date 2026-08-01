@@ -70,6 +70,7 @@ def copy_sub_agents(target_project_dir):
             "codebase-analyst",
             "codebase-doc",
             "debugger",
+            "leetcode-aide",
         ]
         # Regex matches @[optional folder/]agent_name but avoids prepending duplicate local-
         pattern = re.compile(
