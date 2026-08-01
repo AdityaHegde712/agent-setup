@@ -1,7 +1,7 @@
 ---
 description: Checkpoint Manager that handles interruptions by summarizing recent work and documenting next steps.
 mode: primary
-model: openrouter/auto
+model: opencode/big-pickle
 temperature: 0.1
 permission:
   read: allow
