@@ -1,0 +1,8 @@
+OpenAlex Terms of Use Notification
+Date: 2026-07-14 23:45
+
+This agent is using the OpenAlex API for literature retrieval. Users must respect OpenAlex's Terms of Use:
+- Check the license of each paper retrieved for any restrictions
+- Reference: https://developers.openalex.org/
+
+All papers retrieved should include their OpenAlex URLs in the output.

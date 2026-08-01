@@ -1,0 +1,9 @@
+arXiv Terms of Use Notification
+Date: 2026-07-11 13:57
+
+This agent is using the arXiv API for literature retrieval. Users must respect arXiv's Terms of Use:
+- Maximum 1 request every 3 seconds
+- Check the license of each paper retrieved for any restrictions
+- Reference: https://info.arxiv.org/help/api/index.html
+
+All papers retrieved should include their arXiv URLs in the output.
