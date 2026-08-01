@@ -2,8 +2,8 @@
 
 ## Confidence Scores
 
-- **Architect Alignment**: 52
-- **Orchestrator Alignment**: 33
+- **Architect Alignment**: 54
+- **Orchestrator Alignment**: 35
 
 ## Execution Policy
 
@@ -19,6 +19,7 @@
 
 ### 1. System Design & Architecture
 
+- **Directory Organization**: Research outputs and artifacts belong in designated subdirectories (e.g., `.agent-tasks/<topic>/` or `_internal/`), not the project root. The root should contain only essential reference/blueprint documents.
 - **Simplicity & Frameworks**: Prefer minimal viable solutions. Use standard frameworks (React, Vite, Conda, etc.) only when codebase is expected to exceed 500 lines of total code; prefer raw vanilla code/scripts for smaller sizes.
 - **Foundation Finality**: Once a core architectural/foundational module passes development, adapt it via layers/bridges/shims rather than proposing rebuilds for downstream issues, unless exhaustively proven unsolvable.
 - **Reference Grounding & Authority**: Treat user-provided domain specs as authoritative. Cite published sources, established libraries, or known design patterns for all architectural/methodological claims; avoid inventing novel mechanisms ad-hoc.
@@ -39,6 +40,8 @@
 - **Branch Merging & Pull Requests**: Never handle branch merges locally and never initiate pull requests via agents. Instead, direct the user on which branch to merge into which, specify if rebases are necessary, and wait for the user to complete the merge manually.
 - **Permanent Resurfacing Fixes**: If an issue would recur upon rebuilding or re-creation, implement a permanent code fix rather than skipping or patching it temporarily.
 - **API Provider Integrations**: Always include an integration/connectivity validation script when adding or changing external API providers.
+- **Bulk File Assessment via Technical Writer**: When the orchestrator needs to read many files for assessment without context bloat, delegate the reading task to `app/technical-writer` rather than reading files directly.
+- **Prompt-Map-Driven Sub-Agent Design**: When invoking `@util/sub-agent-creator`, reference `~/.config/opencode/system_prompts_map.json` and require it to search tags for vetted system-prompt subsections before writing manifests. Provide a permissions template so manifests are generated correctly: `bash: deny` (not `bash: false`), `edit: deny`, `task: deny`, read scope limited to specific directories, steps limit set. Design provenance (which prompt-map tags were used, rationale) belongs in a separate `creation_summary.md` — never inside the agent manifests.
 
 ### 3. Local UI, WebViews & Web Compatibility
 
@@ -59,6 +62,8 @@
 - **Third-Party Libraries**: For minor features, prefer using a popular third-party micro-package (e.g., lodash, date-fns) as the first choice. Write a custom implementation only if the package does not fit the target task.
 - **In-Code Documentation**: Concise, type-hinted, and modular. Use Google-style docstrings/JSDoc.
 - **Plans/Design**: High granularity, technical detail, mathematical/mechanistic precision, and explicit failure-mode analysis over qualitative descriptions.
+- **Reference Paths in Reports**: Reports and summary documents must include explicit file paths to source data so the next reader or agent can navigate directly without searching.
+- **Post-Reorganization Reference Audit**: After any file move, rename, or delete operation, audit all documentation that references old paths and update them to match the new layout.
 
 ### 6. Plan Version Labeling & Phasing
 
@@ -73,4 +78,7 @@
 - **Test Placement**: Dedicated isolated test directories (e.g., `tests/` at the root/top-level) are strictly preferred over co-locating test files with source code.
 - **Formatting & Linting**: Auto-formatters/linters (e.g., Prettier, Black, Ruff, ESLint) must be run automatically on modified files before committing.
 - **Git Commits**: Milestone-based auto-commits are preferred.
+- **Root Cleanliness**: Keep the project root limited to essential reference/blueprint documents only. Move research artifacts, raw data, and debug scripts to designated subdirectories.
+- **Per-Dataset Raw/Processed Split**: Use `data/<dataset>/raw/` for original downloads and `data/<dataset>/processed/` for derivatives. Maintain a `DATASET_SUMMARY.md` per dataset documenting schema, stats, and quality notes.
+- **Research Artifact Disposability**: Raw API search results (JSON), throwaway debug scripts (<40 lines), and stale session logs can be deleted once their findings are captured in structured reports.
 
