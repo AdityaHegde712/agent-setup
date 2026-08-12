@@ -147,22 +147,53 @@ class _RateLimiter:
         into the same call.
     """
     if fcntl is None:
-      # Fallback for Windows: lock-free rating
+      # Windows fallback: `fcntl` is unavailable, so use `msvcrt.locking` to
+      # obtain a genuine cross-process advisory lock (mirrors the `flock`
+      # semantics used on POSIX below) instead of the previous lock-free,
+      # race-prone read/modify/write.
+      import msvcrt  # Windows-only; safe here because fcntl is None.
+
       try:
-        if os.path.exists(self._lock_file):
-          with open(self._lock_file, "r") as r:
-            content = r.read().strip()
-          last_ts = float(content) if content else 0.0
-        else:
-          last_ts = 0.0
-        now = time.monotonic()
-        gap = self._min_interval - (now - last_ts)
-        delay = max(gap, min_sleep)
-        if delay > 0:
-          time.sleep(delay)
-        with open(self._lock_file, "w") as w:
-          w.write(str(time.monotonic()))
+        # Open (or create) the lock file for read+write without truncating
+        # so a concurrently-written timestamp survives.
+        fd = os.open(self._lock_file, os.O_RDWR | os.O_CREAT, 0o644)
+        f = os.fdopen(fd, "r+")
+        try:
+          # Acquire an exclusive lock on the first byte, blocking until it is
+          # granted. `LK_NBLCK` is non-blocking (raises OSError if the byte is
+          # already locked), so we spin with a short sleep to emulate the
+          # indefinite blocking of `fcntl.flock(LOCK_EX)`. This avoids
+          # `LK_LOCK`, whose built-in retry gives up after ~10 seconds — too
+          # short when the critical section itself sleeps for the rate gap.
+          while True:
+            try:
+              f.seek(0)
+              msvcrt.locking(f.fileno(), msvcrt.LK_NBLCK, 1)
+              break
+            except OSError:
+              time.sleep(0.05)
+          try:
+            f.seek(0)
+            content = f.read().strip()
+            last_ts = float(content) if content else 0.0
+            now = time.monotonic()
+            gap = self._min_interval - (now - last_ts)
+            delay = max(gap, min_sleep)
+            if delay > 0:
+              time.sleep(delay)
+            f.seek(0)
+            f.truncate()
+            f.write(str(time.monotonic()))
+            f.flush()
+          finally:
+            # Unlock the same byte range that was locked (position must match).
+            f.seek(0)
+            msvcrt.locking(f.fileno(), msvcrt.LK_UNLCK, 1)
+        finally:
+          f.close()
       except Exception:
+        # As a last resort, still honour the caller-requested minimum sleep so
+        # back-off is not silently dropped if locking fails unexpectedly.
         if min_sleep > 0:
           time.sleep(min_sleep)
       return

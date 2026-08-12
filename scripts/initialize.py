@@ -181,9 +181,8 @@ def main():
     # 0. Check for uv package manager
     check_uv()
 
-    # 1. Copy sub-agents to target project .opencode/agents/
-    target_project = os.getcwd()
-    copy_success = copy_sub_agents(target_project)
+    # 1. Agent flat-copying deprecated (using global definitions directly)
+    copy_success = True
 
     # 2. Fetch and cache free models
     kb_success = fetch_and_cache_free_models(force=force_fetch)

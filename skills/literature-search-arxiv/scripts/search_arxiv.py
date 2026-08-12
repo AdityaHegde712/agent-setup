@@ -158,16 +158,16 @@ def search_arxiv(args: argparse.Namespace):
     paper["authors"] = authors
     results.append(paper)
 
-    print(
-        json.dumps(
-            {
-                "status": "success",
-                "results_count": len(results),
-                "papers": results,
-            },
-            indent=2,
-        )
-    )
+  print(
+      json.dumps(
+          {
+              "status": "success",
+              "results_count": len(results),
+              "papers": results,
+          },
+          indent=2,
+      )
+  )
 
 
 if __name__ == "__main__":

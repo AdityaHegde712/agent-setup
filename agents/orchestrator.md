@@ -12,7 +12,7 @@ permission:
     "**/*.json": allow
     "**/*.jsonc": allow
     "**/*.log": allow
-    "**/.gitignore": allow
+    "**/.*ignore": allow
     "temp*": allow
     "$HOME/.config/opencode/**/temp*": allow
   bash: allow

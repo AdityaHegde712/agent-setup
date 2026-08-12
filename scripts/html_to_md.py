@@ -1,22 +1,21 @@
-import sys
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#   "html2text",
+# ]
+# ///
+"""Convert an HTML file to Markdown using html2text.
+
+Run via uv so the `html2text` dependency is resolved from the inline PEP 723
+metadata above (no runtime `pip install` required):
+
+    uv run --script scripts/html_to_md.py <input_html_path> <output_md_path>
+"""
+
 import os
+import sys
 
-
-def install_and_import(package):
-    import importlib
-
-    try:
-        importlib.import_module(package)
-    except ImportError:
-        import subprocess
-
-        print(f"[*] Installing {package}...")
-        # Try installing using standard pip
-        try:
-            subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-        except Exception as e:
-            print(f"[!] Error installing {package}: {e}")
-            raise
+import html2text
 
 
 def main():
@@ -30,15 +29,6 @@ def main():
     if not os.path.exists(input_path):
         print(f"Error: input file {input_path} does not exist.")
         sys.exit(1)
-
-    try:
-        install_and_import("html2text")
-    except Exception:
-        print("[!] Failed to load html2text library.")
-        sys.exit(1)
-
-    # pyrefly: ignore [missing-import]
-    import html2text
 
     print(f"[*] Converting {input_path} to {output_path}...")
     try:
